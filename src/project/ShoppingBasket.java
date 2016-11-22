@@ -2,6 +2,7 @@ package project;
 
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 
 /**
@@ -50,8 +51,25 @@ public class ShoppingBasket {
 
             floatResult += (product.getPrice().floatValue());
         }
-        BigDecimal result = (new BigDecimal(floatResult));
-        return result.setScale(2, BigDecimal.ROUND_FLOOR);
+
+        BigDecimal result = ((new BigDecimal(floatResult)).setScale(2, BigDecimal.ROUND_FLOOR));
+        if((result.compareTo(new BigDecimal(19.00).setScale(2, BigDecimal.ROUND_FLOOR)) == 1)) {
+            result.setScale(2, BigDecimal.ROUND_FLOOR);
+
+            MathContext mc = new MathContext(4);
+            BigDecimal mult = (new BigDecimal(0.9).setScale(2, BigDecimal.ROUND_FLOOR));
+            BigDecimal finalResult = (result.setScale(2, BigDecimal.ROUND_FLOOR)).multiply(mult, mc);
+            return finalResult;
+        }
+
+        else{
+            return  result;
+        }
+
+
+
+
+
     }
 
 

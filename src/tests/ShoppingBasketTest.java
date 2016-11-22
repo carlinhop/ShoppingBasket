@@ -59,7 +59,6 @@ public class ShoppingBasketTest {
         basket.setProducts(product2);
         assertEquals(new BigDecimal(3.98).setScale(2, BigDecimal.ROUND_CEILING), basket.value());
 
-
     }
 
     @Test
@@ -81,7 +80,6 @@ public class ShoppingBasketTest {
         product2 = new Product("TV", price, false);
         basket.setProducts(product1);
         basket.setProducts(product2);
-
         assertEquals(new BigDecimal(36.00).setScale(2, BigDecimal.ROUND_CEILING), basket.value());
     }
 
