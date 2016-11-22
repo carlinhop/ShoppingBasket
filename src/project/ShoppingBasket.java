@@ -16,6 +16,17 @@ public class ShoppingBasket {
     }
 
     public ArrayList<Product> getProducts(){
+        ArrayList<Product> copy = new ArrayList<Product>();
+        for(Product product:this.products) {
+
+            if(product.getHasBogof() && product.getPrice() != new BigDecimal(0)){
+                Product newOne = new Product(product);
+                copy.add(newOne);
+            }
+        }
+
+        this.products.addAll(copy);
+
         return this.products;
     }
 
@@ -33,8 +44,9 @@ public class ShoppingBasket {
 
     public BigDecimal value(){
 
-        Float floatResult = new Float(0.00);
-        for(Product product: this.products){
+
+        Float floatResult = new Float(0);
+        for(Product product: getProducts()){
 
             floatResult += (product.getPrice().floatValue());
         }

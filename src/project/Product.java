@@ -19,6 +19,12 @@ public class Product {
         this.hasBogof = bogof;
     }
 
+    public Product(Product product){
+        this.name = product.name;
+        this.price = new BigDecimal(0);
+        this.hasBogof = product.getHasBogof();
+    }
+
     public String getName() {
         return name;
     }
