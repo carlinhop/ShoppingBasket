@@ -11,6 +11,9 @@ import java.util.ArrayList;
 public class ShoppingBasket {
 
     ArrayList<Product> products;
+    Customer customer;
+
+
 
     public ShoppingBasket(){
         this.products = new ArrayList<Product>();
@@ -47,30 +50,43 @@ public class ShoppingBasket {
 
 
         Float floatResult = new Float(0);
+
         for(Product product: getProducts()){
 
             floatResult += (product.getPrice().floatValue());
         }
 
         BigDecimal result = ((new BigDecimal(floatResult)).setScale(2, BigDecimal.ROUND_FLOOR));
-        if((result.compareTo(new BigDecimal(19.00).setScale(2, BigDecimal.ROUND_FLOOR)) == 1)) {
+
+        BigDecimal mult2 = (new BigDecimal(0.98));
+        MathContext mc = new MathContext(4);
+
+        //method to apply discount of 10% when the purchase is more than £20
+        if((result.compareTo(new BigDecimal(19.00)) == 1)) {
             result.setScale(2, BigDecimal.ROUND_FLOOR);
 
-            MathContext mc = new MathContext(4);
-            BigDecimal mult = (new BigDecimal(0.9).setScale(2, BigDecimal.ROUND_FLOOR));
+
+            BigDecimal mult = (new BigDecimal(0.90));
             BigDecimal finalResult = (result.setScale(2, BigDecimal.ROUND_FLOOR)).multiply(mult, mc);
-            return finalResult;
+
+
+            return this.customer.getHasLoyalty() ? (finalResult.setScale(2, BigDecimal.ROUND_FLOOR)).multiply(mult2, mc): finalResult ;
         }
 
         else{
-            return  result;
+
+            return this.customer.getHasLoyalty() ? (result.setScale(2, BigDecimal.ROUND_FLOOR)).multiply(mult2, mc): result;
         }
-
-
-
-
-
     }
+
+    public Customer getCustomer() {
+        return this.customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
 
 
 }

@@ -17,6 +17,7 @@ public class ShoppingBasketTest {
     public Product product1;
     public Product product2;
     public BigDecimal price;
+    public Customer customer1;
 
 
     @Before
@@ -24,9 +25,10 @@ public class ShoppingBasketTest {
         price = new BigDecimal(1.99).setScale(2, BigDecimal.ROUND_CEILING);
         product1 = new Product("Radio", price, false);
         product2 = new Product("TV", price, false);
-
+        customer1 = new Customer("Carlos");
         basket = new ShoppingBasket();
         basket.setProducts(product1);
+        basket.setCustomer(customer1);
     }
 
     @Test
@@ -74,13 +76,35 @@ public class ShoppingBasketTest {
 
     @Test
     public void basketOfferOver20(){
-        price  = new BigDecimal(20.00).setScale(2, BigDecimal.ROUND_CEILING);
+        price  = new BigDecimal(20.00).setScale(2, BigDecimal.ROUND_FLOOR);
         basket.empty();
         product1 = new Product("Radio", price, true);
         product2 = new Product("TV", price, false);
         basket.setProducts(product1);
         basket.setProducts(product2);
-        assertEquals(new BigDecimal(36.00).setScale(2, BigDecimal.ROUND_CEILING), basket.value());
+        assertEquals(new BigDecimal(36.00).setScale(2, BigDecimal.ROUND_FLOOR), basket.value());
     }
 
+    @Test
+    public void basketHasCustomer(){
+        assertEquals("Carlos", basket.getCustomer().getName());
+    }
+
+    @Test
+    public void customerHasLoyaltyDiscount(){
+        customer1.setHasLoyalty(true);
+        assertTrue(basket.getCustomer().getHasLoyalty());
+    }
+
+    @Test
+    public void loyaltyIsRetributed(){
+        price  = new BigDecimal(20.00).setScale(2, BigDecimal.ROUND_FLOOR);
+        customer1.setHasLoyalty(true);
+        basket.empty();
+        product1 = new Product("Radio", price, true);
+        product2 = new Product("TV", price, false);
+        basket.setProducts(product1);
+        basket.setProducts(product2);
+        assertEquals(new BigDecimal(35.28).setScale(2, BigDecimal.ROUND_FLOOR), basket.value());
+    }
 }
