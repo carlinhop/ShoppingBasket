@@ -10,13 +10,17 @@ import java.util.ArrayList;
  */
 public class ShoppingBasket {
 
-    ArrayList<Product> products;
-    Customer customer;
+    private ArrayList<Product> products;
+    private Customer customer;
 
 
 
     public ShoppingBasket(){
         this.products = new ArrayList<Product>();
+    }
+
+    public ShoppingBasket(ArrayList<Product> list){
+        this.products = list;
     }
 
     public ArrayList<Product> getProducts(){
@@ -63,19 +67,21 @@ public class ShoppingBasket {
 
         //method to apply discount of 10% when the purchase is more than £20
         if((result.compareTo(new BigDecimal(19.00)) == 1)) {
-            result.setScale(2, BigDecimal.ROUND_FLOOR);
+
 
 
             BigDecimal mult = (new BigDecimal(0.90));
-            BigDecimal finalResult = (result.setScale(2, BigDecimal.ROUND_FLOOR)).multiply(mult, mc);
+            BigDecimal finalResult = (result.multiply(mult, mc)).setScale(2, BigDecimal.ROUND_FLOOR);
 
 
-            return this.customer.getHasLoyalty() ? (finalResult.setScale(2, BigDecimal.ROUND_FLOOR)).multiply(mult2, mc): finalResult ;
+            return this.customer.getHasLoyalty() ? (finalResult).multiply(mult2, mc):
+                    finalResult;
         }
 
         else{
 
-            return this.customer.getHasLoyalty() ? (result.setScale(2, BigDecimal.ROUND_FLOOR)).multiply(mult2, mc): result;
+            return this.customer.getHasLoyalty() ? (result.setScale(2, BigDecimal.ROUND_FLOOR)).multiply(mult2, mc):
+                    result;
         }
     }
 

@@ -44,12 +44,9 @@ public class Product {
     public Boolean getHasBogof() {
         return hasBogof;
     }
-
     public void setHasBogof(Boolean hasBogof) {
         this.hasBogof = hasBogof;
     }
-
-
 
 
 }

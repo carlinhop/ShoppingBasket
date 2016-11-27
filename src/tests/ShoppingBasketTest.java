@@ -107,4 +107,6 @@ public class ShoppingBasketTest {
         basket.setProducts(product2);
         assertEquals(new BigDecimal(35.28).setScale(2, BigDecimal.ROUND_FLOOR), basket.value());
     }
+
+
 }
